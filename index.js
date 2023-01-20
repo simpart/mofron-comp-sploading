@@ -4,8 +4,12 @@
  * @license MIT
  */
 const Loading = require('mofron-comp-loading');
+const Frame   = require('mofron-comp-frame');
 const Spinner = require('mofron-comp-spinner');
+const HrzPos  = require('mofron-effect-hrzpos');
+const ConfArg = mofron.class.ConfArg;
 const cmputl = mofron.util.component;
+const comutl = mofron.util.common;
 
 module.exports = class extends Loading {
     /**
@@ -29,7 +33,7 @@ module.exports = class extends Loading {
             throw e;
         }
     }
-    
+
     /**
      * initialize dom contents
      * 
@@ -39,15 +43,19 @@ module.exports = class extends Loading {
         try {
             super.initDomConts();
             
-	    this.text().effect({ modname:'VrtPos' }).suspend(true);
-            
+	    let txt_wrp = new mofron.class.Component(this.text());
             let frame = new Frame({
-                size: new ConfArg("2rem","1.5rem"),
-                baseColor: "white",
+                size:        new ConfArg("2rem","1.5rem"),
+                baseColor:   "white",
                 accentColor: "white",
-                child: [this.spinner(), this.text()]
+                child: [this.spinner(), txt_wrp]
             });
+
+	    txt_wrp.height(
+                comutl.sizediff(frame.height(), this.spinner().height())
+	    );
             this.child(frame);
+
         } catch (e) {
             console.error(e.stack);
             throw e;
@@ -56,6 +64,10 @@ module.exports = class extends Loading {
 
     spinner (prm) {
         try {
+	    if (true === comutl.isinc(prm,'Spinner')) {
+                prm.effect(new HrzPos());
+		prm.style({ 'position': 'relative', 'top':'0.18rem' });
+	    }
             return this.innerComp('spinner', prm, Spinner);
 	} catch (e) {
             console.error(e.stack);
@@ -74,3 +86,4 @@ module.exports = class extends Loading {
 
 }
 /* end of file */
+
