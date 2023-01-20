@@ -1,6 +1,6 @@
 {
   "name": "mofron-comp-sploading",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "spinner loading component for mofron",
   "main": "index.js",
   "scripts": {
