@@ -45,17 +45,16 @@ module.exports = class extends Loading {
             
 	    let txt_wrp = new mofron.class.Component(this.text());
             let frame = new Frame({
-                size:        new ConfArg("2rem","1.5rem"),
-                baseColor:   "white",
-                accentColor: "white",
-                child: [this.spinner(), txt_wrp]
+                size:  new ConfArg("2rem","1.5rem"),
+                color: new ConfArg("white","white","white"),
+                child: [this.spinner(), txt_wrp],
+		style: { 'display':'flex', 'align-items':'center' }
             });
 
 	    txt_wrp.height(
                 comutl.sizediff(frame.height(), this.spinner().height())
 	    );
             this.child(frame);
-
         } catch (e) {
             console.error(e.stack);
             throw e;
@@ -66,7 +65,6 @@ module.exports = class extends Loading {
         try {
 	    if (true === comutl.isinc(prm,'Spinner')) {
                 prm.effect(new HrzPos());
-		prm.style({ 'position': 'relative', 'top':'0.18rem' });
 	    }
             return this.innerComp('spinner', prm, Spinner);
 	} catch (e) {
